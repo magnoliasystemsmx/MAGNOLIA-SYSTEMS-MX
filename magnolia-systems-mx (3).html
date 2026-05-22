@@ -1,0 +1,1550 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Magnolia Systems MX — Where Technology Blooms</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #050505;
+    --black-soft: #0a0a0a;
+    --black-mid: #111111;
+    --black-card: #141414;
+    --smoke: #f0eeeb;
+    --smoke-dim: #c8c4be;
+    --smoke-muted: #7a7570;
+    --rose: #e8688a;
+    --rose-neon: #ff3e7a;
+    --rose-bright: #ff85a8;
+    --rose-dim: #7a2040;
+    --rose-glow: rgba(255, 62, 122, 0.15);
+    --rose-glow-soft: rgba(255, 62, 122, 0.06);
+    --glass-bg: rgba(255,255,255,0.03);
+    --glass-border: rgba(255,255,255,0.07);
+    --glass-border-rose: rgba(255, 62, 122, 0.2);
+  }
+
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--black);
+    color: var(--smoke);
+    font-family: 'Inter', sans-serif;
+    overflow-x: hidden;
+    cursor: none;
+  }
+
+  /* CUSTOM CURSOR */
+  .cursor {
+    position: fixed;
+    width: 28px; height: 28px;
+    pointer-events: none;
+    z-index: 9999;
+    transform: translate(-50%, -50%);
+    transition: transform 0.1s ease, opacity 0.2s;
+    mix-blend-mode: screen;
+  }
+  .cursor-ring {
+    position: fixed;
+    width: 36px; height: 36px;
+    border: 1px solid rgba(255,62,122,0.4);
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9998;
+    transform: translate(-50%, -50%);
+    transition: all 0.18s ease;
+  }
+  .cursor-ring.hovered { transform: translate(-50%,-50%) scale(1.6); border-color: rgba(255,62,122,0.7); }
+
+  /* SCROLLBAR */
+  ::-webkit-scrollbar { width: 3px; }
+  ::-webkit-scrollbar-track { background: var(--black); }
+  ::-webkit-scrollbar-thumb { background: var(--rose-dim); border-radius: 2px; }
+
+  /* ─── NAVBAR ─── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 4vw;
+    height: 72px;
+    transition: background 0.4s, border-color 0.4s;
+  }
+  nav.scrolled {
+    background: rgba(5,5,5,0.85);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--glass-border);
+  }
+
+  .nav-logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+  }
+  .nav-logo-icon {
+    width: 36px; height: 36px;
+    position: relative;
+    flex-shrink: 0;
+  }
+  .nav-logo-icon svg { width: 100%; height: 100%; }
+  .nav-logo-text {
+    display: flex;
+    flex-direction: column;
+    line-height: 1;
+  }
+  .nav-logo-text span:first-child {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    color: var(--smoke);
+  }
+  .nav-logo-text span:last-child {
+    font-size: 10px;
+    font-weight: 400;
+    letter-spacing: 0.12em;
+    color: var(--smoke-muted);
+    text-transform: uppercase;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 2.5rem;
+    list-style: none;
+  }
+  .nav-links a {
+    font-size: 13px;
+    font-weight: 400;
+    letter-spacing: 0.06em;
+    color: var(--smoke-dim);
+    text-decoration: none;
+    text-transform: uppercase;
+    transition: color 0.2s;
+    position: relative;
+  }
+  .nav-links a::after {
+    content: '';
+    position: absolute;
+    bottom: -3px; left: 0;
+    width: 0; height: 1px;
+    background: var(--rose-neon);
+    transition: width 0.3s ease;
+  }
+  .nav-links a:hover { color: var(--smoke); }
+  .nav-links a:hover::after { width: 100%; }
+
+  .nav-cta {
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--rose-neon);
+    border: 1px solid rgba(255,62,122,0.35);
+    padding: 9px 22px;
+    text-decoration: none;
+    transition: all 0.25s;
+    background: transparent;
+  }
+  .nav-cta:hover {
+    background: var(--rose-glow);
+    border-color: rgba(255,62,122,0.7);
+    box-shadow: 0 0 20px rgba(255,62,122,0.15);
+  }
+
+  /* ─── HERO ─── */
+  #hero {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    padding: 0 4vw;
+  }
+
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 80% 60% at 50% 80%, rgba(255,62,122,0.08) 0%, transparent 65%),
+                radial-gradient(ellipse 40% 40% at 20% 20%, rgba(232,104,138,0.04) 0%, transparent 60%);
+  }
+
+  .hero-grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+    background-size: 80px 80px;
+    mask-image: radial-gradient(ellipse 90% 90% at 50% 50%, black 0%, transparent 75%);
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    max-width: 1100px;
+    width: 100%;
+  }
+
+  .hero-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--rose);
+    margin-bottom: 2.5rem;
+    opacity: 0;
+    animation: fadeUp 0.8s ease 0.2s forwards;
+  }
+  .hero-eyebrow::before, .hero-eyebrow::after {
+    content: '';
+    width: 32px; height: 1px;
+    background: var(--rose);
+    opacity: 0.5;
+  }
+
+  .hero-headline {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: clamp(3.2rem, 7.5vw, 7.5rem);
+    font-weight: 300;
+    line-height: 1.0;
+    letter-spacing: -0.02em;
+    margin-bottom: 0.15em;
+    opacity: 0;
+    animation: fadeUp 1s ease 0.35s forwards;
+  }
+  .hero-headline .word-accent {
+    font-style: italic;
+    background: linear-gradient(135deg, var(--rose-bright), var(--rose-neon));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-weight: 400;
+  }
+  .hero-headline .word-light { color: var(--smoke-dim); font-weight: 300; }
+
+  .hero-sub {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.1rem, 2vw, 1.5rem);
+    font-weight: 300;
+    font-style: italic;
+    color: var(--smoke-muted);
+    margin-bottom: 3rem;
+    letter-spacing: 0.02em;
+    opacity: 0;
+    animation: fadeUp 1s ease 0.5s forwards;
+  }
+
+  .hero-actions {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    opacity: 0;
+    animation: fadeUp 1s ease 0.65s forwards;
+  }
+
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--black);
+    background: var(--rose-neon);
+    padding: 14px 36px;
+    text-decoration: none;
+    transition: all 0.25s;
+    position: relative;
+    overflow: hidden;
+  }
+  .btn-primary::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(255,255,255,0.15);
+    transform: translateX(-100%) skewX(-15deg);
+    transition: transform 0.4s ease;
+  }
+  .btn-primary:hover::before { transform: translateX(110%) skewX(-15deg); }
+  .btn-primary:hover { box-shadow: 0 0 40px rgba(255,62,122,0.4); }
+
+  .btn-ghost {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    font-weight: 400;
+    letter-spacing: 0.06em;
+    color: var(--smoke-dim);
+    text-decoration: none;
+    padding: 14px 0;
+    transition: color 0.2s;
+    border: none;
+    background: none;
+    cursor: none;
+  }
+  .btn-ghost svg { transition: transform 0.3s ease; }
+  .btn-ghost:hover { color: var(--smoke); }
+  .btn-ghost:hover svg { transform: translateX(6px); }
+
+  .hero-scroll {
+    position: absolute;
+    bottom: 2.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    opacity: 0;
+    animation: fadeIn 1s ease 1.2s forwards;
+  }
+  .hero-scroll span {
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--smoke-muted);
+  }
+  .scroll-line {
+    width: 1px;
+    height: 50px;
+    background: linear-gradient(to bottom, var(--rose-neon), transparent);
+    animation: scrollPulse 2s ease infinite;
+  }
+
+  /* ─── SECTION BASE ─── */
+  section { padding: 8rem 4vw; }
+
+  .section-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--rose);
+    margin-bottom: 3rem;
+  }
+  .section-label::before {
+    content: '';
+    width: 24px; height: 1px;
+    background: var(--rose);
+    opacity: 0.6;
+  }
+
+  /* ─── MARQUEE ─── */
+  .marquee-wrap {
+    overflow: hidden;
+    border-top: 1px solid var(--glass-border);
+    border-bottom: 1px solid var(--glass-border);
+    padding: 1.2rem 0;
+    background: rgba(255,62,122,0.025);
+  }
+  .marquee-track {
+    display: flex;
+    gap: 0;
+    animation: marquee 28s linear infinite;
+    width: max-content;
+  }
+  .marquee-item {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    padding: 0 2rem;
+    font-size: 12px;
+    font-weight: 400;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--smoke-muted);
+    white-space: nowrap;
+  }
+  .marquee-dot { width: 4px; height: 4px; border-radius: 50%; background: var(--rose-neon); }
+
+  /* ─── ABOUT ─── */
+  #about { max-width: 1400px; margin: 0 auto; }
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.6fr;
+    gap: 6rem;
+    align-items: start;
+  }
+  .about-left { position: sticky; top: 100px; }
+  .about-number {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(6rem, 12vw, 11rem);
+    font-weight: 300;
+    line-height: 0.85;
+    color: transparent;
+    -webkit-text-stroke: 1px rgba(255,62,122,0.2);
+    margin-bottom: 2rem;
+    pointer-events: none;
+    user-select: none;
+  }
+  .about-tagline {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: clamp(1.4rem, 2.5vw, 2rem);
+    font-weight: 400;
+    line-height: 1.3;
+    letter-spacing: -0.01em;
+    margin-bottom: 2rem;
+  }
+  .about-tagline em { font-style: italic; color: var(--rose); }
+
+  .about-body p {
+    font-size: 1.05rem;
+    font-weight: 300;
+    line-height: 1.85;
+    color: var(--smoke-dim);
+    margin-bottom: 1.5rem;
+  }
+  .about-body p strong { color: var(--smoke); font-weight: 500; }
+
+  .about-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    margin-top: 4rem;
+    padding-top: 4rem;
+    border-top: 1px solid var(--glass-border);
+  }
+  .stat-item { }
+  .stat-number {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 2.2rem;
+    font-weight: 300;
+    color: var(--smoke);
+    line-height: 1;
+    margin-bottom: 0.4rem;
+  }
+  .stat-number span { color: var(--rose-neon); }
+  .stat-label {
+    font-size: 11px;
+    font-weight: 400;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--smoke-muted);
+  }
+
+  /* ─── SERVICES ─── */
+  #services { background: var(--black-soft); }
+  .services-inner { max-width: 1400px; margin: 0 auto; }
+  .services-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 5rem;
+    gap: 2rem;
+  }
+  .services-title {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: clamp(2rem, 4vw, 3.5rem);
+    font-weight: 300;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+    max-width: 520px;
+  }
+  .services-title em { font-style: italic; color: var(--rose); }
+  .services-desc {
+    max-width: 320px;
+    font-size: 0.9rem;
+    line-height: 1.8;
+    color: var(--smoke-muted);
+  }
+
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5px;
+    background: var(--glass-border);
+  }
+  .service-card {
+    background: var(--black-card);
+    padding: 3rem;
+    position: relative;
+    overflow: hidden;
+    transition: background 0.35s;
+    cursor: none;
+  }
+  .service-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--rose-glow-soft);
+    opacity: 0;
+    transition: opacity 0.35s;
+  }
+  .service-card:hover { background: #181010; }
+  .service-card:hover::before { opacity: 1; }
+  .service-card-border {
+    position: absolute;
+    bottom: 0; left: 0;
+    width: 0; height: 2px;
+    background: linear-gradient(90deg, var(--rose-neon), transparent);
+    transition: width 0.5s ease;
+  }
+  .service-card:hover .service-card-border { width: 100%; }
+
+  .service-index {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1rem;
+    font-style: italic;
+    color: var(--rose-dim);
+    margin-bottom: 2rem;
+    opacity: 0.7;
+  }
+  .service-icon {
+    width: 52px; height: 52px;
+    margin-bottom: 2rem;
+    color: var(--rose);
+    opacity: 0.8;
+  }
+  .service-name {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 1.4rem;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    margin-bottom: 1rem;
+    color: var(--smoke);
+  }
+  .service-desc {
+    font-size: 0.88rem;
+    line-height: 1.85;
+    color: var(--smoke-muted);
+    margin-bottom: 2rem;
+  }
+  .service-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .service-tag {
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--rose-dim);
+    border: 1px solid rgba(122,32,64,0.35);
+    padding: 5px 12px;
+    background: rgba(255,62,122,0.04);
+  }
+
+  /* ─── PROJECTS ─── */
+  #projects { max-width: 1400px; margin: 0 auto; }
+  .projects-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 4rem;
+  }
+  .projects-title {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: clamp(1.8rem, 3.5vw, 3rem);
+    font-weight: 300;
+    letter-spacing: -0.02em;
+  }
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 1.5px;
+    background: var(--glass-border);
+  }
+  .project-card {
+    background: var(--black-card);
+    padding: 2.5rem;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.35s;
+    cursor: none;
+  }
+  .project-card:nth-child(1) { grid-column: span 7; min-height: 360px; }
+  .project-card:nth-child(2) { grid-column: span 5; min-height: 360px; }
+  .project-card:nth-child(3) { grid-column: span 4; }
+  .project-card:nth-child(4) { grid-column: span 4; }
+  .project-card:nth-child(5) { grid-column: span 4; }
+
+  .project-card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(255,62,122,0.06), transparent 60%);
+    opacity: 0;
+    transition: opacity 0.4s;
+  }
+  .project-card:hover { background: #161010; }
+  .project-card:hover::after { opacity: 1; }
+
+  .project-category {
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--rose);
+    margin-bottom: 1rem;
+  }
+  .project-name {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 1.25rem;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    margin-bottom: 0.75rem;
+    color: var(--smoke);
+  }
+  .project-card:nth-child(1) .project-name,
+  .project-card:nth-child(2) .project-name {
+    font-size: 1.6rem;
+  }
+  .project-desc {
+    font-size: 0.85rem;
+    line-height: 1.75;
+    color: var(--smoke-muted);
+    max-width: 480px;
+  }
+  .project-arrow {
+    position: absolute;
+    bottom: 2.5rem;
+    right: 2.5rem;
+    width: 40px; height: 40px;
+    border: 1px solid var(--glass-border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--smoke-muted);
+    transition: all 0.3s;
+  }
+  .project-card:hover .project-arrow {
+    border-color: var(--rose-neon);
+    color: var(--rose-neon);
+    background: var(--rose-glow);
+  }
+  .project-tech {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 1.5rem;
+  }
+  .project-tech span {
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--smoke-muted);
+    border: 1px solid var(--glass-border);
+    padding: 4px 10px;
+  }
+
+  /* ─── PROCESS ─── */
+  #process { background: var(--black-soft); }
+  .process-inner { max-width: 1400px; margin: 0 auto; }
+  .process-intro {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6rem;
+    align-items: center;
+    margin-bottom: 6rem;
+  }
+  .process-title {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: clamp(2rem, 4vw, 3.5rem);
+    font-weight: 300;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+  }
+  .process-title em { font-style: italic; color: var(--rose); }
+  .process-body {
+    font-size: 1rem;
+    line-height: 1.85;
+    color: var(--smoke-muted);
+  }
+
+  .process-steps {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+    position: relative;
+  }
+  .process-steps::before {
+    content: '';
+    position: absolute;
+    top: 24px;
+    left: calc(12.5%);
+    right: calc(12.5%);
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--rose-dim), transparent);
+    z-index: 0;
+  }
+  .process-step {
+    padding: 2.5rem 2rem;
+    position: relative;
+    z-index: 1;
+    border-left: 1px solid var(--glass-border);
+    transition: background 0.3s;
+  }
+  .process-step:first-child { border-left: none; }
+  .process-step:hover { background: rgba(255,62,122,0.03); }
+
+  .step-dot {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    background: var(--rose-neon);
+    margin-bottom: 2rem;
+    box-shadow: 0 0 12px rgba(255,62,122,0.5);
+    position: relative;
+  }
+  .step-dot::before {
+    content: '';
+    position: absolute;
+    inset: -5px;
+    border-radius: 50%;
+    border: 1px solid rgba(255,62,122,0.2);
+  }
+  .step-number {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 0.85rem;
+    font-style: italic;
+    color: var(--rose-dim);
+    margin-bottom: 1rem;
+    opacity: 0.7;
+  }
+  .step-name {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: var(--smoke);
+    margin-bottom: 0.75rem;
+  }
+  .step-desc {
+    font-size: 0.85rem;
+    line-height: 1.75;
+    color: var(--smoke-muted);
+  }
+
+  /* ─── CTA ─── */
+  #cta {
+    position: relative;
+    overflow: hidden;
+    padding: 10rem 4vw;
+  }
+  .cta-bg {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 70% 80% at 50% 50%, rgba(255,62,122,0.12) 0%, transparent 65%);
+  }
+  .cta-grid-overlay {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+    background-size: 60px 60px;
+    mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 0%, transparent 75%);
+  }
+  .cta-inner {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+  .cta-label {
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--rose);
+    margin-bottom: 2.5rem;
+  }
+  .cta-title {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: clamp(2.5rem, 6vw, 5.5rem);
+    font-weight: 300;
+    letter-spacing: -0.025em;
+    line-height: 1.0;
+    margin-bottom: 1.5rem;
+  }
+  .cta-title .glow-text {
+    background: linear-gradient(135deg, var(--rose-bright), var(--rose-neon), var(--rose-bright));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    background-size: 200% 100%;
+    animation: shimmer 3s ease infinite;
+  }
+  .cta-sub {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.3rem;
+    font-style: italic;
+    color: var(--smoke-muted);
+    margin-bottom: 3.5rem;
+    line-height: 1.6;
+  }
+  .cta-actions {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2rem;
+    flex-wrap: wrap;
+  }
+  .cta-contact {
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--smoke-muted);
+    margin-top: 3rem;
+  }
+  .cta-contact a { color: var(--rose); text-decoration: none; }
+  .cta-contact a:hover { color: var(--rose-neon); }
+
+  /* ─── FOOTER ─── */
+  footer {
+    background: var(--black-soft);
+    border-top: 1px solid var(--glass-border);
+    padding: 3rem 4vw;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+  .footer-copy {
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    color: var(--smoke-muted);
+  }
+  .footer-links {
+    display: flex;
+    gap: 2rem;
+    list-style: none;
+  }
+  .footer-links a {
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--smoke-muted);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .footer-links a:hover { color: var(--rose); }
+
+  /* ─── GLASSMORPHISM CARD ─── */
+  .glass-card {
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+  }
+
+  /* ─── ANIMATIONS ─── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  @keyframes scrollPulse {
+    0%, 100% { opacity: 1; transform: scaleY(1); transform-origin: top; }
+    50% { opacity: 0.3; transform: scaleY(0.6); transform-origin: top; }
+  }
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+  @keyframes shimmer {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+  }
+  @keyframes flowerSpin {
+    from { transform: translate(-50%,-50%) rotate(0deg); }
+    to { transform: translate(-50%,-50%) rotate(360deg); }
+  }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .reveal-delay-1 { transition-delay: 0.1s; }
+  .reveal-delay-2 { transition-delay: 0.2s; }
+  .reveal-delay-3 { transition-delay: 0.3s; }
+  .reveal-delay-4 { transition-delay: 0.4s; }
+
+  /* ─── RESPONSIVE ─── */
+  @media (max-width: 1024px) {
+    .about-grid { grid-template-columns: 1fr; gap: 3rem; }
+    .about-left { position: static; }
+    .services-grid { grid-template-columns: 1fr; }
+    .process-steps { grid-template-columns: repeat(2, 1fr); }
+    .process-steps::before { display: none; }
+  }
+  @media (max-width: 768px) {
+    section { padding: 5rem 5vw; }
+    nav { padding: 0 5vw; }
+    .nav-links { display: none; }
+    .services-header { flex-direction: column; align-items: flex-start; }
+    .process-intro { grid-template-columns: 1fr; gap: 2rem; }
+    .process-steps { grid-template-columns: 1fr; }
+    .projects-grid { grid-template-columns: 1fr; }
+    .project-card { grid-column: span 1 !important; }
+    .about-stats { grid-template-columns: 1fr 1fr; }
+    .projects-header { flex-direction: column; gap: 1rem; }
+    .nav-cta { display: none; }
+    body { cursor: auto; }
+    .cursor, .cursor-ring { display: none; }
+  }
+
+  /* ─── TEAM ─── */
+  .about-team {
+    margin-top: 3rem;
+    padding-top: 3rem;
+    border-top: 1px solid var(--glass-border);
+  }
+  .team-headline {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.15rem;
+    font-style: italic;
+    font-weight: 300;
+    color: var(--smoke-dim);
+    letter-spacing: 0.01em;
+    margin-bottom: 1.8rem;
+    line-height: 1.4;
+  }
+  .team-members {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem 2.5rem;
+  }
+  .team-member {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+  .member-name {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.88rem;
+    font-weight: 500;
+    color: var(--smoke);
+    letter-spacing: 0.02em;
+  }
+  .member-role {
+    font-size: 0.75rem;
+    font-weight: 400;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--rose-dim);
+    opacity: 0.8;
+  }
+
+</style>
+</head>
+<body>
+
+<!-- Custom Cursor -->
+<div class="cursor" id="cursor">
+  <svg viewBox="0 0 28 28" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;animation:flowerSpin 10s linear infinite;overflow:visible;">
+    <g transform="translate(14,14)">
+      <!-- 6 pétalos redondeados tipo daisy, con hueco interior -->
+      <!-- Pétalo 1: arriba -->
+      <path d="M-2.5,-4 C-3.5,-8 3.5,-8 2.5,-4 C1.5,-2 -1.5,-2 -2.5,-4Z" fill="#ff3e7a"/>
+      <!-- Pétalo 2: arriba-derecha -->
+      <path d="M-2.5,-4 C-3.5,-8 3.5,-8 2.5,-4 C1.5,-2 -1.5,-2 -2.5,-4Z" fill="#ff3e7a" transform="rotate(60)"/>
+      <!-- Pétalo 3: abajo-derecha -->
+      <path d="M-2.5,-4 C-3.5,-8 3.5,-8 2.5,-4 C1.5,-2 -1.5,-2 -2.5,-4Z" fill="#ff3e7a" transform="rotate(120)"/>
+      <!-- Pétalo 4: abajo -->
+      <path d="M-2.5,-4 C-3.5,-8 3.5,-8 2.5,-4 C1.5,-2 -1.5,-2 -2.5,-4Z" fill="#ff3e7a" transform="rotate(180)"/>
+      <!-- Pétalo 5: abajo-izq -->
+      <path d="M-2.5,-4 C-3.5,-8 3.5,-8 2.5,-4 C1.5,-2 -1.5,-2 -2.5,-4Z" fill="#ff3e7a" transform="rotate(240)"/>
+      <!-- Pétalo 6: arriba-izq -->
+      <path d="M-2.5,-4 C-3.5,-8 3.5,-8 2.5,-4 C1.5,-2 -1.5,-2 -2.5,-4Z" fill="#ff3e7a" transform="rotate(300)"/>
+      <!-- Centro blanco con borde rosa -->
+      <circle r="3" fill="#0a0a0a" stroke="#ff3e7a" stroke-width="1"/>
+      <circle r="1.5" fill="#ff85a8"/>
+    </g>
+  </svg>
+</div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- ─── NAVBAR ─── -->
+<nav id="navbar">
+  <a href="#" class="nav-logo">
+    <div class="nav-logo-icon" style="width:42px;height:42px;flex-shrink:0;">
+      <svg viewBox="0 0 42 42" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%;">
+        <!-- Stem + base -->
+        <line x1="21" y1="38" x2="21" y2="18" stroke="#ff3e7a" stroke-width="1.6" stroke-linecap="round"/>
+        <line x1="12" y1="38" x2="30" y2="38" stroke="#ff3e7a" stroke-width="1.6" stroke-linecap="round" opacity="0.55"/>
+        <!-- Circuit nodes on base -->
+        <circle cx="12" cy="38" r="1.8" fill="#ff3e7a" opacity="0.5"/>
+        <circle cx="30" cy="38" r="1.8" fill="#ff3e7a" opacity="0.5"/>
+        <!-- Center tall petal -->
+        <path d="M21 18 C18.5 13 14 7 21 2 C28 7 23.5 13 21 18Z" stroke="#ff3e7a" stroke-width="1.4" fill="rgba(255,62,122,0.08)" stroke-linejoin="round"/>
+        <line x1="21" y1="18" x2="21" y2="4" stroke="#ff3e7a" stroke-width="0.7" opacity="0.4"/>
+        <!-- Center vein circuit dots -->
+        <circle cx="21" cy="8"  r="1.1" fill="#ff3e7a" opacity="0.7"/>
+        <circle cx="21" cy="13" r="1.1" fill="#ff3e7a" opacity="0.7"/>
+        <!-- Left large petal -->
+        <path d="M17 22 C12 18 5 17 5 22 C5 27 11 26 17 22Z" stroke="#ff3e7a" stroke-width="1.4" fill="rgba(255,62,122,0.06)" stroke-linejoin="round"/>
+        <line x1="17" y1="22" x2="7"  y2="22" stroke="#ff3e7a" stroke-width="0.7" opacity="0.35"/>
+        <circle cx="8"  cy="22" r="1" fill="#ff3e7a" opacity="0.55"/>
+        <circle cx="12" cy="20" r="1" fill="#ff3e7a" opacity="0.45"/>
+        <!-- Right large petal -->
+        <path d="M25 22 C30 18 37 17 37 22 C37 27 31 26 25 22Z" stroke="#ff3e7a" stroke-width="1.4" fill="rgba(255,62,122,0.06)" stroke-linejoin="round"/>
+        <line x1="25" y1="22" x2="35" y2="22" stroke="#ff3e7a" stroke-width="0.7" opacity="0.35"/>
+        <circle cx="34" cy="22" r="1" fill="#ff3e7a" opacity="0.55"/>
+        <circle cx="30" cy="20" r="1" fill="#ff3e7a" opacity="0.45"/>
+        <!-- Lower left petal -->
+        <path d="M16 28 C12 25 7 25 7 28 C7 32 12 31 16 28Z" stroke="#e8688a" stroke-width="1.2" fill="rgba(232,104,138,0.05)" stroke-linejoin="round"/>
+        <circle cx="9"  cy="28" r="0.9" fill="#e8688a" opacity="0.5"/>
+        <circle cx="13" cy="27" r="0.9" fill="#e8688a" opacity="0.4"/>
+        <!-- Lower right petal -->
+        <path d="M26 28 C30 25 35 25 35 28 C35 32 30 31 26 28Z" stroke="#e8688a" stroke-width="1.2" fill="rgba(232,104,138,0.05)" stroke-linejoin="round"/>
+        <circle cx="33" cy="28" r="0.9" fill="#e8688a" opacity="0.5"/>
+        <circle cx="29" cy="27" r="0.9" fill="#e8688a" opacity="0.4"/>
+        <!-- Glow center node -->
+        <circle cx="21" cy="18" r="2.2" fill="#ff3e7a"/>
+        <circle cx="21" cy="18" r="1.1" fill="#fff" opacity="0.5"/>
+      </svg>
+    </div>
+    <div class="nav-logo-text">
+      <span>Magnolia Systems</span>
+      <span>MX</span>
+    </div>
+  </a>
+
+  <ul class="nav-links">
+    <li><a href="#about">Nosotros</a></li>
+    <li><a href="#services">Servicios</a></li>
+    <li><a href="#projects">Proyectos</a></li>
+    <li><a href="#process">Proceso</a></li>
+  </ul>
+
+  <a href="#cta" class="nav-cta">Hablemos</a>
+</nav>
+
+<!-- ─── HERO ─── -->
+<section id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+
+  <div class="hero-content">
+    <div class="hero-eyebrow">
+      <span>Monterrey · México</span>
+    </div>
+
+    <h1 class="hero-headline">
+      Donde la<br>
+      <span class="word-accent">tecnología</span><br>
+      <span class="word-light">florece.</span>
+    </h1>
+
+    <p class="hero-sub">
+      Software que transforma. Sistemas que perduran. Futuro que construimos juntos.
+    </p>
+
+    <div class="hero-actions">
+      <a href="#projects" class="btn-primary">
+        Ver proyectos
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+      <a href="#services" class="btn-ghost">
+        Explorar servicios
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+    </div>
+  </div>
+
+  <div class="hero-scroll">
+    <span>Scroll</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<!-- ─── MARQUEE ─── -->
+<div class="marquee-wrap">
+  <div class="marquee-track" id="marqueeTrack">
+    <div class="marquee-item"><div class="marquee-dot"></div><span>Desarrollo Web</span></div>
+    <div class="marquee-item"><div class="marquee-dot"></div><span>Apps Móviles</span></div>
+    <div class="marquee-item"><div class="marquee-dot"></div><span>Inteligencia Artificial</span></div>
+    <div class="marquee-item"><div class="marquee-dot"></div><span>Automatización</span></div>
+    <div class="marquee-item"><div class="marquee-dot"></div><span>APIs & Backends</span></div>
+    <div class="marquee-item"><div class="marquee-dot"></div><span>Machine Learning</span></div>
+    <div class="marquee-item"><div class="marquee-dot"></div><span>Cloud Architecture</span></div>
+    <div class="marquee-item"><div class="marquee-dot"></div><span>UX · UI Design</span></div>
+    <div class="marquee-item"><div class="marquee-dot"></div><span>Desarrollo Web</span></div>
+    <div class="marquee-item"><div class="marquee-dot"></div><span>Apps Móviles</span></div>
+    <div class="marquee-item"><div class="marquee-dot"></div><span>Inteligencia Artificial</span></div>
+    <div class="marquee-item"><div class="marquee-dot"></div><span>Automatización</span></div>
+    <div class="marquee-item"><div class="marquee-dot"></div><span>APIs & Backends</span></div>
+    <div class="marquee-item"><div class="marquee-dot"></div><span>Machine Learning</span></div>
+    <div class="marquee-item"><div class="marquee-dot"></div><span>Cloud Architecture</span></div>
+    <div class="marquee-item"><div class="marquee-dot"></div><span>UX · UI Design</span></div>
+  </div>
+</div>
+
+<!-- ─── ABOUT ─── -->
+<section id="about" style="padding: 10rem 4vw;">
+  <div style="max-width: 1400px; margin: 0 auto;">
+    <div class="about-grid">
+      <div class="about-left reveal">
+        <div class="about-number">01</div>
+        <div class="section-label">Nosotros</div>
+        <h2 class="about-tagline">
+          No construimos software.<br>
+          Construimos <em>posibilidades</em>.
+        </h2>
+      </div>
+      <div class="about-body reveal reveal-delay-2">
+        <p>
+          <strong>Magnolia Systems MX</strong> es un estudio de tecnología fundado en Monterrey con una misión simple: ayudar a empresas y emprendedores a escalar sus ideas a través de soluciones digitales de clase mundial.
+        </p>
+        <p>
+          Combinamos ingeniería de precisión con pensamiento de diseño para crear productos que no solo funcionan, sino que transforman la manera en que nuestros clientes operan. Cada línea de código tiene un propósito. Cada sistema, una visión.
+        </p>
+        <p>
+          Desde aplicaciones web de alta complejidad hasta agentes de inteligencia artificial personalizados, nuestro equipo domina el stack completo del desarrollo moderno. Somos obsesivos con la calidad, velocidad e impacto.
+        </p>
+        <div class="about-stats">
+          <div class="stat-item">
+            <div class="stat-number">50<span>+</span></div>
+            <div class="stat-label">Proyectos entregados</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-number">98<span>%</span></div>
+            <div class="stat-label">Satisfacción del cliente</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-number">4<span>x</span></div>
+            <div class="stat-label">ROI promedio</div>
+          </div>
+        </div>
+
+        <!-- TEAM -->
+        <div class="about-team">
+          <p class="team-headline">Un estudio construido por cuatro mentes.</p>
+          <div class="team-members">
+            <div class="team-member">
+              <span class="member-name">Ely Garcia</span>
+              <span class="member-role">Vision &amp; Experience</span>
+            </div>
+            <div class="team-member">
+              <span class="member-name">Giovanni Ramiro</span>
+              <span class="member-role">Software Development</span>
+            </div>
+            <div class="team-member">
+              <span class="member-name">Samuel Gonzalez</span>
+              <span class="member-role">AI &amp; Machine Learning</span>
+            </div>
+            <div class="team-member">
+              <span class="member-name">Juan Aguilar</span>
+              <span class="member-role">Automation &amp; Systems</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── SERVICES ─── -->
+<section id="services">
+  <div class="services-inner">
+    <div class="services-header reveal">
+      <h2 class="services-title">
+        Lo que<br><em>hacemos</em><br>mejor.
+      </h2>
+      <p class="services-desc">
+        Cuatro áreas de especialización diseñadas para llevar tu negocio al siguiente nivel de eficiencia y escala.
+      </p>
+    </div>
+
+    <div class="services-grid reveal">
+      <!-- Card 1: Web Dev -->
+      <div class="service-card">
+        <div class="service-card-border"></div>
+        <div class="service-index">01 / 04</div>
+        <div class="service-icon">
+          <svg viewBox="0 0 52 52" fill="none" stroke="currentColor" stroke-width="1.5">
+            <rect x="6" y="10" width="40" height="28" rx="2"/>
+            <path d="M16 26l-6 6 6 6M36 26l6 6-6 6M28 20l-4 24"/>
+          </svg>
+        </div>
+        <h3 class="service-name">Desarrollo Web</h3>
+        <p class="service-desc">Plataformas web de alta performance construidas con tecnologías modernas. Desde SaaS hasta e-commerce enterprise, diseñamos arquitecturas que escalan contigo.</p>
+        <div class="service-tags">
+          <span class="service-tag">React / Next.js</span>
+          <span class="service-tag">Node.js</span>
+          <span class="service-tag">TypeScript</span>
+          <span class="service-tag">Cloud</span>
+        </div>
+      </div>
+
+      <!-- Card 2: Apps -->
+      <div class="service-card">
+        <div class="service-card-border"></div>
+        <div class="service-index">02 / 04</div>
+        <div class="service-icon">
+          <svg viewBox="0 0 52 52" fill="none" stroke="currentColor" stroke-width="1.5">
+            <rect x="16" y="4" width="20" height="44" rx="3"/>
+            <circle cx="26" cy="43" r="2"/>
+            <path d="M22 9h8"/>
+          </svg>
+        </div>
+        <h3 class="service-name">Apps Móviles</h3>
+        <p class="service-desc">Aplicaciones nativas y multiplataforma que entregan experiencias fluidas en iOS y Android. UX pensada para el usuario real, no para el prototipo.</p>
+        <div class="service-tags">
+          <span class="service-tag">React Native</span>
+          <span class="service-tag">Flutter</span>
+          <span class="service-tag">iOS / Android</span>
+        </div>
+      </div>
+
+      <!-- Card 3: AI -->
+      <div class="service-card">
+        <div class="service-card-border"></div>
+        <div class="service-index">03 / 04</div>
+        <div class="service-icon">
+          <svg viewBox="0 0 52 52" fill="none" stroke="currentColor" stroke-width="1.5">
+            <circle cx="26" cy="26" r="8"/>
+            <circle cx="26" cy="10" r="3"/><circle cx="26" cy="42" r="3"/>
+            <circle cx="10" cy="18" r="3"/><circle cx="10" cy="34" r="3"/>
+            <circle cx="42" cy="18" r="3"/><circle cx="42" cy="34" r="3"/>
+            <path d="M26 18v0m0 8v0M18 26h0m16 0h0"/>
+            <line x1="26" y1="13" x2="26" y2="18"/>
+            <line x1="26" y1="34" x2="26" y2="39"/>
+            <line x1="13" y1="20" x2="18" y2="23"/>
+            <line x1="34" y1="29" x2="39" y2="32"/>
+            <line x1="13" y1="32" x2="18" y2="29"/>
+            <line x1="34" y1="23" x2="39" y2="20"/>
+          </svg>
+        </div>
+        <h3 class="service-name">Inteligencia Artificial</h3>
+        <p class="service-desc">Integramos modelos de lenguaje, visión computacional y machine learning directamente en tus flujos de trabajo. IA que genera valor desde el día uno.</p>
+        <div class="service-tags">
+          <span class="service-tag">LLMs / RAG</span>
+          <span class="service-tag">Agentes AI</span>
+          <span class="service-tag">ML Pipelines</span>
+        </div>
+      </div>
+
+      <!-- Card 4: Automation -->
+      <div class="service-card">
+        <div class="service-card-border"></div>
+        <div class="service-index">04 / 04</div>
+        <div class="service-icon">
+          <svg viewBox="0 0 52 52" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M10 26C10 17.2 17.2 10 26 10"/>
+            <path d="M42 26C42 34.8 34.8 42 26 42"/>
+            <path d="M26 10l-6 6m6-6l6 6"/>
+            <path d="M26 42l-6-6m6 6l6-6"/>
+            <circle cx="26" cy="26" r="6"/>
+            <path d="M20 26h12"/>
+          </svg>
+        </div>
+        <h3 class="service-name">Automatización</h3>
+        <p class="service-desc">Eliminamos las tareas repetitivas de tu operación. Desde integraciones entre sistemas hasta pipelines complejos, automatizamos para que tu equipo se enfoque en lo que importa.</p>
+        <div class="service-tags">
+          <span class="service-tag">n8n / Zapier</span>
+          <span class="service-tag">APIs</span>
+          <span class="service-tag">Workflows</span>
+          <span class="service-tag">RPA</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── PROJECTS ─── -->
+<section id="projects" style="padding: 10rem 4vw;">
+  <div style="max-width: 1400px; margin: 0 auto;">
+    <div class="projects-header reveal">
+      <div>
+        <div class="section-label">Proyectos</div>
+        <h2 class="projects-title">Trabajo seleccionado</h2>
+      </div>
+      <a href="#cta" class="btn-ghost">
+        Ver todos
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+    </div>
+
+    <div class="projects-grid reveal">
+      <div class="project-card">
+        <div class="project-category">SaaS · IA Generativa</div>
+        <h3 class="project-name">NexaOps Platform</h3>
+        <p class="project-desc">Plataforma de operaciones empresariales potenciada con IA que automatiza reportes, análisis de datos y toma de decisiones para equipos de +50 personas.</p>
+        <div class="project-tech">
+          <span>Next.js</span><span>Python</span><span>OpenAI</span><span>PostgreSQL</span>
+        </div>
+        <div class="project-arrow">
+          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M7 17L17 7M7 7h10v10"/></svg>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-category">App Móvil · Fintech</div>
+        <h3 class="project-name">FlowPay</h3>
+        <p class="project-desc">App de pagos y gestión financiera para PyMEs con reconciliación automática y reportes en tiempo real.</p>
+        <div class="project-tech">
+          <span>React Native</span><span>Node.js</span><span>Stripe</span>
+        </div>
+        <div class="project-arrow">
+          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M7 17L17 7M7 7h10v10"/></svg>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-category">Automatización</div>
+        <h3 class="project-name">AutoLog AI</h3>
+        <p class="project-desc">Sistema de trazabilidad logística con alertas inteligentes y predicción de retrasos.</p>
+        <div class="project-tech">
+          <span>Python</span><span>ML</span>
+        </div>
+        <div class="project-arrow">
+          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M7 17L17 7M7 7h10v10"/></svg>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-category">E-commerce · Web</div>
+        <h3 class="project-name">Terrazo Boutique</h3>
+        <p class="project-desc">Tienda online de lujo con experiencia inmersiva y checkout optimizado para conversión.</p>
+        <div class="project-tech">
+          <span>Next.js</span><span>Shopify</span>
+        </div>
+        <div class="project-arrow">
+          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M7 17L17 7M7 7h10v10"/></svg>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-category">AI Agent · Interno</div>
+        <h3 class="project-name">Magnolia Core</h3>
+        <p class="project-desc">Nuestro agente AI interno que automatiza propuestas, sprints y documentación técnica.</p>
+        <div class="project-tech">
+          <span>LLM</span><span>RAG</span>
+        </div>
+        <div class="project-arrow">
+          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M7 17L17 7M7 7h10v10"/></svg>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── PROCESS ─── -->
+<section id="process">
+  <div class="process-inner">
+    <div class="process-intro reveal">
+      <h2 class="process-title">
+        Nuestro<br>proceso<br><em>es tu ventaja.</em>
+      </h2>
+      <p class="process-body">
+        No improvisamos. Cada proyecto sigue una metodología probada que garantiza claridad, velocidad y resultados medibles. Trabajamos en ciclos cortos de alto impacto con comunicación constante.
+      </p>
+    </div>
+
+    <div class="process-steps">
+      <div class="process-step reveal reveal-delay-1">
+        <div class="step-dot"></div>
+        <div class="step-number">01</div>
+        <h3 class="step-name">Descubrimiento</h3>
+        <p class="step-desc">Entendemos tu negocio, tus usuarios y tus objetivos. Definimos alcance, KPIs y arquitectura de solución en una semana.</p>
+      </div>
+      <div class="process-step reveal reveal-delay-2">
+        <div class="step-dot"></div>
+        <div class="step-number">02</div>
+        <h3 class="step-name">Diseño & Prototipo</h3>
+        <p class="step-desc">Creamos wireframes, flujos de UX y un prototipo interactivo validado contigo antes de escribir una sola línea de código.</p>
+      </div>
+      <div class="process-step reveal reveal-delay-3">
+        <div class="step-dot"></div>
+        <div class="step-number">03</div>
+        <h3 class="step-name">Desarrollo Ágil</h3>
+        <p class="step-desc">Sprints de dos semanas con demos funcionales. Iteras, ajustas y ves crecer tu producto en tiempo real.</p>
+      </div>
+      <div class="process-step reveal reveal-delay-4">
+        <div class="step-dot"></div>
+        <div class="step-number">04</div>
+        <h3 class="step-name">Lanzamiento & Escala</h3>
+        <p class="step-desc">Deploy con monitoreo 24/7, documentación completa y soporte post-lanzamiento. No te dejamos solo al aire.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── CTA ─── -->
+<section id="cta">
+  <div class="cta-bg"></div>
+  <div class="cta-grid-overlay"></div>
+  <div class="cta-inner reveal">
+    <div class="cta-label">¿Listo para construir?</div>
+    <h2 class="cta-title">
+      Tu próximo<br>
+      <span class="glow-text">sistema</span><br>
+      empieza aquí.
+    </h2>
+    <p class="cta-sub">
+      Cuéntanos tu idea. En 48 horas tendrás una propuesta técnica detallada, sin compromiso.
+    </p>
+    <div class="cta-actions">
+      <a href="https://wa.me/528332524242?text=Hola%2C%20me%20interesa%20iniciar%20un%20proyecto%20con%20Magnolia%20Systems%20MX.%20%C2%BFPodemos%20hablar%3F" target="_blank" rel="noopener" class="btn-primary" style="font-size:13px; padding: 16px 48px;">
+        Iniciar proyecto
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+    </div>
+    <p class="cta-contact">
+      O escríbenos directamente a <a href="mailto:hola@magnoliasystems.mx">hola@magnoliasystems.mx</a>
+    </p>
+  </div>
+</section>
+
+<!-- ─── FOOTER ─── -->
+<footer>
+  <span class="footer-copy">© 2025 Magnolia Systems MX. Todos los derechos reservados.</span>
+  <ul class="footer-links">
+    <li><a href="#about">Nosotros</a></li>
+    <li><a href="#services">Servicios</a></li>
+    <li><a href="#projects">Proyectos</a></li>
+    <li><a href="#cta">Contacto</a></li>
+  </ul>
+</footer>
+
+<script>
+  // ─── CURSOR ───
+  const cursor = document.getElementById('cursor');
+  const ring = document.getElementById('cursorRing');
+  let mx = 0, my = 0, rx = 0, ry = 0;
+
+  document.addEventListener('mousemove', e => {
+    mx = e.clientX; my = e.clientY;
+    cursor.style.left = mx + 'px';
+    cursor.style.top = my + 'px';
+  });
+
+  function animateRing() {
+    rx += (mx - rx) * 0.12;
+    ry += (my - ry) * 0.12;
+    ring.style.left = rx + 'px';
+    ring.style.top = ry + 'px';
+    requestAnimationFrame(animateRing);
+  }
+  animateRing();
+
+  document.querySelectorAll('a, button, .service-card, .project-card, .process-step').forEach(el => {
+    el.addEventListener('mouseenter', () => ring.classList.add('hovered'));
+    el.addEventListener('mouseleave', () => ring.classList.remove('hovered'));
+  });
+
+  // ─── NAVBAR SCROLL ───
+  const navbar = document.getElementById('navbar');
+  window.addEventListener('scroll', () => {
+    navbar.classList.toggle('scrolled', window.scrollY > 40);
+  });
+
+  // ─── SCROLL REVEAL ───
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -60px 0px' });
+
+  reveals.forEach(el => observer.observe(el));
+
+  // ─── SMOOTH SECTION TRANSITIONS ───
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+      const target = document.querySelector(a.getAttribute('href'));
+      if (target) {
+        e.preventDefault();
+        target.scrollIntoView({ behavior: 'smooth' });
+      }
+    });
+  });
+
+  // ─── SERVICE CARDS MAGNETIC EFFECT ───
+  document.querySelectorAll('.service-card, .project-card').forEach(card => {
+    card.addEventListener('mousemove', e => {
+      const rect = card.getBoundingClientRect();
+      const x = (e.clientX - rect.left) / rect.width - 0.5;
+      const y = (e.clientY - rect.top) / rect.height - 0.5;
+      card.style.transform = `perspective(800px) rotateY(${x * 4}deg) rotateX(${-y * 4}deg) translateZ(4px)`;
+    });
+    card.addEventListener('mouseleave', () => {
+      card.style.transform = '';
+      card.style.transition = 'transform 0.5s ease, background 0.35s';
+    });
+    card.addEventListener('mouseenter', () => {
+      card.style.transition = 'transform 0.1s ease, background 0.35s';
+    });
+  });
+
+  // ─── HERO PARALLAX ───
+  window.addEventListener('scroll', () => {
+    const scrolled = window.scrollY;
+    const heroGrid = document.querySelector('.hero-grid');
+    if (heroGrid && scrolled < window.innerHeight) {
+      heroGrid.style.transform = `translateY(${scrolled * 0.3}px)`;
+    }
+  });
+
+  // ─── COUNTER ANIMATION ───
+  function animateCounter(el, target, suffix = '') {
+    const duration = 1800;
+    const start = performance.now();
+    const update = (now) => {
+      const progress = Math.min((now - start) / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      el.innerHTML = Math.round(eased * target) + '<span>' + suffix + '</span>';
+      if (progress < 1) requestAnimationFrame(update);
+    };
+    requestAnimationFrame(update);
+  }
+
+  const statsObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const nums = entry.target.querySelectorAll('.stat-number');
+        animateCounter(nums[0], 50, '+');
+        animateCounter(nums[1], 98, '%');
+        animateCounter(nums[2], 4, 'x');
+        statsObserver.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.5 });
+
+  const stats = document.querySelector('.about-stats');
+  if (stats) statsObserver.observe(stats);
+</script>
+
+</body>
+</html>
